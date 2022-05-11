@@ -1,0 +1,21 @@
+query getAlbums {
+  albums {
+    data {
+      id
+      title
+      user {
+        id
+        name
+      }
+      photos {
+        data {
+          id
+        }
+      }
+    }
+  }
+}
+
+mutation deleteAlbum($id: ID!) {
+  deleteAlbum(id: $id)
+}

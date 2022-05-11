@@ -26,16 +26,20 @@
     "@emotion/react": "11",
     "@emotion/styled": "11",
     "@hookform/resolvers": "2.8.8",
+    "@types/antd": "^1.0.0",
+    "@types/react-datepicker": "^4.4.1",
+    "antd": "^4.20.2",
     "dayjs": "1.10.7",
     "framer-motion": "5",
     "graphql": "15.6.1",
     "lodash": "4.17.21",
     "react": "17.0.2",
+    "react-datepicker": "^4.7.0",
     "react-dom": "17.0.2",
-    "react-hook-form": "7.24.1",
+    "react-hook-form": "^7.30.0",
     "react-icons": "4.3.1",
-    "react-router-dom": "6.0.1",
-    "yup": "0.32.11"
+    "react-router-dom": "^6.3.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.16.3",
@@ -134,5 +138,9 @@
   },
   "commitlint": {
     "extends": "@commitlint/config-conventional"
-  }
+  },
+  "main": "index.js",
+  "repository": "git@github.com:tonnyhawk93/aristek-final-project.git",
+  "author": "tonnyhawk <tonnyhawk93@gmail.com>",
+  "license": "MIT"
 }
