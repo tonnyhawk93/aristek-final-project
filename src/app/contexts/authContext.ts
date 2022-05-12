@@ -1,15 +1,13 @@
 import { createContext } from "react";
 
-interface AuthProviderProps {
+interface AuthContextProps {
   isLoggedIn: boolean;
   logIn: () => void;
   logOut: () => void;
 }
 
-export const authContext = createContext<AuthProviderProps>({
+export default createContext<AuthContextProps>({
   isLoggedIn: false,
   logIn: () => {},
   logOut: () => {},
 });
-
-export default authContext;

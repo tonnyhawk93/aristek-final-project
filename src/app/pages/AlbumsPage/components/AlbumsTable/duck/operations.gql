@@ -1,5 +1,5 @@
-query getAlbums {
-  albums {
+query getAlbums($page: Int!, $size: Int!) {
+  albums(options: { paginate: { page: $page, limit: $size } }) {
     data {
       id
       title
@@ -12,6 +12,9 @@ query getAlbums {
           id
         }
       }
+    }
+    meta {
+      totalCount
     }
   }
 }

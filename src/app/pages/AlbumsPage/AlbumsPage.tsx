@@ -1,11 +1,12 @@
 import React from "react";
-import { MainPageLayout, AlbumsTable, NavButton } from "app/components";
+import { MainPageLayout, NavButton } from "app/components";
+import { AlbumsTable } from "./components";
 
 const AlbumsPage = () => {
   return (
     <MainPageLayout
       title="Albums"
-      headerButton={<NavButton title="Create album" pathTo="/albums/create" />}
+      headerButton={<NavButton pathTo="/albums/create">Create album</NavButton>}
     >
       <AlbumsTable />
     </MainPageLayout>

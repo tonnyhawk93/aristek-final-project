@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import React from "react";
+import { ApolloProvider } from "@apollo/client";
+import "./style.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "antd/dist/antd.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AuthContext from "./contexts/authContext";
-import { getToken, setToken, removeToken } from "./helpers";
-import { useAuth } from "./hooks";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { PrivatePath } from "./components";
+import client from "./configs/appolo";
 import {
   AlbumPage,
   LoginPage,
@@ -16,44 +16,7 @@ import {
   NotFoundPage,
   DatePage,
 } from "./pages";
-
-const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URL,
-  cache: new InMemoryCache(),
-});
-
-interface AuthProviderProps {
-  children: JSX.Element;
-}
-
-interface PrivatPathProps {
-  children: JSX.Element;
-}
-
-const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isLoggedIn, setLogin] = useState(Boolean(getToken()));
-
-  const logIn = () => {
-    setToken(String(Date.now()));
-    setLogin(true);
-  };
-  const logOut = () => {
-    removeToken();
-    setLogin(false);
-  };
-
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, logIn, logOut }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-const PrivatPath = ({ children }: PrivatPathProps) => {
-  const { isLoggedIn } = useAuth();
-
-  return isLoggedIn ? children : <Navigate to="/login" />;
-};
+import AuthProvider from "./providers/AuthProvider";
 
 function App() {
   return (
@@ -64,49 +27,49 @@ function App() {
             <Route
               path="/"
               element={
-                <PrivatPath>
+                <PrivatePath>
                   <DashboardPage />
-                </PrivatPath>
+                </PrivatePath>
               }
             />
             <Route
               path="/albums"
               element={
-                <PrivatPath>
+                <PrivatePath>
                   <AlbumsPage />
-                </PrivatPath>
+                </PrivatePath>
               }
             />
             <Route
               path="/albums/create"
               element={
-                <PrivatPath>
+                <PrivatePath>
                   <CreateAlbumPage />
-                </PrivatPath>
+                </PrivatePath>
               }
             />
             <Route
               path="/albums/:id"
               element={
-                <PrivatPath>
+                <PrivatePath>
                   <AlbumPage />
-                </PrivatPath>
+                </PrivatePath>
               }
             />
             <Route
               path="/albums/:id/edit"
               element={
-                <PrivatPath>
+                <PrivatePath>
                   <EditAlbumPage />
-                </PrivatPath>
+                </PrivatePath>
               }
             />
             <Route
               path="/inputs"
               element={
-                <PrivatPath>
+                <PrivatePath>
                   <DatePage />
-                </PrivatPath>
+                </PrivatePath>
               }
             />
             <Route path="/login" element={<LoginPage />} />

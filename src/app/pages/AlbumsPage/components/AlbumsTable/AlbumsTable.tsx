@@ -1,15 +1,28 @@
-import * as React from "react";
+import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Table, Space } from "antd";
-import { useNavigate, useLocation, createSearchParams } from "react-router-dom";
-import { Spinner, ErrorMessage } from "..";
+import {
+  useNavigate,
+  useSearchParams,
+  createSearchParams,
+} from "react-router-dom";
+import { ErrorMessage, Spinner } from "app/components";
+import { DEFAULT_PAGES_SIZE, DEFAULT_CURRENT_PAGE } from "app/constants";
 import { operations, Types } from "./duck";
 
 const AlbumsTable: React.FC = () => {
-  const { data, loading } = useQuery<
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { data, previousData, loading, error } = useQuery<
     Types.GetAlbumsQuery,
     Types.GetAlbumsQueryVariables
-  >(operations.getAlbums);
+  >(operations.getAlbums, {
+    variables: {
+      page: Number(searchParams.get("page")) || DEFAULT_CURRENT_PAGE,
+      size: Number(searchParams.get("size")) || DEFAULT_PAGES_SIZE,
+    },
+  });
+
+  const navigate = useNavigate();
 
   const [deleteAlbum, { loading: loadingDeleteInfo }] = useMutation<
     Types.DeleteAlbumMutation,
@@ -17,17 +30,11 @@ const AlbumsTable: React.FC = () => {
   >(operations.deleteAlbum);
 
   const handleDeleteAlbum = (id: string) => deleteAlbum({ variables: { id } });
-  const navigate = useNavigate();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
 
   const handleChangePage = (page: number, size: number) => {
     const newParams = { page: String(page), size: String(size) };
     const search = `?${createSearchParams(newParams)}`;
-    navigate({
-      pathname: location.pathname,
-      search,
-    });
+    setSearchParams(search);
   };
 
   const columns = [
@@ -80,27 +87,34 @@ const AlbumsTable: React.FC = () => {
     },
   ];
 
-  if (!data || loading || loadingDeleteInfo) {
+  if (error) {
+    return <ErrorMessage />;
+  }
+
+  if (loading && !data && !previousData) {
     return <Spinner />;
   }
 
-  if (data.albums?.data) {
-    const dataWithKeys = data.albums.data.map((el) => ({ ...el, key: el?.id }));
-
-    return (
-      <Table
-        columns={columns}
-        dataSource={dataWithKeys}
-        pagination={{
-          defaultCurrent: Number(params.get("page")) || 1,
-          defaultPageSize: Number(params.get("size")) || 10,
-          onChange: handleChangePage,
-        }}
-      />
-    );
-  }
-
-  return <ErrorMessage />;
+  return (
+    <Table
+      columns={columns}
+      rowKey={(record: { id: string }) => record?.id}
+      /* eslint-disable-next-line @typescript-eslint/no-array-constructor */
+      dataSource={
+        data?.albums?.data || previousData?.albums?.data || new Array()
+      }
+      loading={loading || loadingDeleteInfo}
+      pagination={{
+        current: Number(searchParams.get("page")) || DEFAULT_CURRENT_PAGE,
+        pageSize: Number(searchParams.get("size")) || DEFAULT_PAGES_SIZE,
+        onChange: handleChangePage,
+        total:
+          data?.albums?.meta?.totalCount ||
+          previousData?.albums?.meta?.totalCount ||
+          0,
+      }}
+    />
+  );
 };
 
 export default AlbumsTable;

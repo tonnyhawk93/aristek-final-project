@@ -36,9 +36,9 @@ const DeleteAlbumPage = () => {
   return (
     <MainPageLayout title="Create album" headerButton={<NavButton />}>
       <Layout>
-        <Content style={{ height: "100%" }}>
-          <Col style={{ height: "100%" }}>
-            <Row style={{ height: "100%" }} justify="start" align="middle">
+        <Content className="h-100">
+          <Col className="h-100">
+            <Row className="h-100" justify="start" align="middle">
               <AlbumEditForm
                 handleCancel={handleCancel}
                 handleSubmit={handleSubmit}

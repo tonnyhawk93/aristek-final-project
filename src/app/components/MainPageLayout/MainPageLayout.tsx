@@ -1,8 +1,10 @@
 import React from "react";
 import { Layout, Menu, Row, Col } from "antd";
+import cn from "classnames";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getRootPath } from "../../helpers";
-import LogoutButton from "../LogoutButton";
+import { getRootPath } from "app/helpers";
+import { LogoutButton } from "./components";
+import style from "./style.module.css";
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,34 +31,9 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = ({
   };
 
   return (
-    <Layout
-      hasSider
-      style={{
-        minHeight: "100vh",
-        height: "100%",
-      }}
-    >
-      <Sider
-        theme="light"
-        style={{
-          overflow: "auto",
-          padding: "12px",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-          top: 0,
-          bottom: 0,
-        }}
-      >
-        <Col
-          style={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignContent: "center",
-            justifyContent: "space-between",
-          }}
-        >
+    <Layout hasSider className={cn(style.layout, "h-100")}>
+      <Sider theme="light" className={cn(style.sider, "h-100-vh")}>
+        <Col className={cn(style.col, "h-100")}>
           <Menu
             mode="inline"
             items={items}
@@ -68,26 +45,14 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = ({
           </Row>
         </Col>
       </Sider>
-      <Layout
-        style={{
-          marginLeft: 200,
-        }}
-      >
+      <Layout className={style.ml}>
         <Header>
           <Row justify="space-between" align="middle">
-            <h1 style={{ color: "white" }}>{title}</h1>
+            <h1 className={style.colorWhite}>{title}</h1>
             {headerButton}
           </Row>
         </Header>
-        <Content
-          style={{
-            padding: 24,
-            margin: 0,
-            height: "100%",
-          }}
-        >
-          {children}
-        </Content>
+        <Content className={cn(style.content, "h-100")}>{children}</Content>
       </Layout>
     </Layout>
   );

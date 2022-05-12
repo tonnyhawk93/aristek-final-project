@@ -3,12 +3,11 @@ import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 interface NavButtonProps {
-  title?: string;
   pathTo?: string;
 }
 
 const NavButton: React.FC<NavButtonProps> = ({
-  title = "Back",
+  children = "Back",
   pathTo = "/albums",
 }) => {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ const NavButton: React.FC<NavButtonProps> = ({
 
   return (
     <Button type="default" onClick={handleClick}>
-      {title}
+      {children}
     </Button>
   );
 };

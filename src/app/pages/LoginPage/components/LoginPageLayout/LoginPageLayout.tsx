@@ -6,9 +6,9 @@ const { Content } = Layout;
 const LoginPageLayout: React.FC = ({ children }) => {
   return (
     <Layout>
-      <Content style={{ height: "100vh" }}>
-        <Col style={{ height: "100%" }}>
-          <Row style={{ height: "100%" }} justify="center" align="middle">
+      <Content className="h-100-vh">
+        <Col className="h-100">
+          <Row className="h-100" justify="center" align="middle">
             {children}
           </Row>
         </Col>

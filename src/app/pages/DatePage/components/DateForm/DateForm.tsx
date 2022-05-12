@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Form, Button } from "antd";
-import { DateInput, DateRangeInput } from "..";
+import { DateInput, DateRangeInput } from "./components";
 
 const DateForm = () => {
   return (

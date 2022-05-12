@@ -2,7 +2,8 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { Tabs, Table, Image } from "antd";
 import { useParams } from "react-router-dom";
-import { Spinner, ErrorMessage } from "..";
+import ErrorMessage from "../../../../components/ErrorMessage";
+import Spinner from "../../../../components/Spinner";
 import { operations, Types } from "./duck";
 
 const { TabPane } = Tabs;

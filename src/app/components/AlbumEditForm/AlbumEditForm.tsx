@@ -3,8 +3,10 @@ import { useQuery } from "@apollo/client";
 import type { ApolloError } from "@apollo/client";
 import { Form, Input, Button, Select } from "antd";
 import { useNavigate } from "react-router-dom";
-import { Spinner, ErrorMessage } from "..";
+import ErrorMessage from "../ErrorMessage";
+import Spinner from "../Spinner";
 import { operations, Types } from "./duck";
+import style from "./style.module.css";
 
 const { Option } = Select;
 
@@ -39,7 +41,7 @@ const AlbumEditForm: React.FC<AlbumEditFormProps> = ({
     Types.GetUsersQueryVariables
   >(operations.getUsers);
 
-  if (getUsersLoading || !usersData) {
+  if (getUsersLoading) {
     return <Spinner />;
   }
 
@@ -69,7 +71,7 @@ const AlbumEditForm: React.FC<AlbumEditFormProps> = ({
         onFinish={handleSubmit}
         autoComplete="off"
         initialValues={initialValues}
-        style={{ minWidth: "370px" }}
+        className={style.form}
       >
         <Form.Item
           label="Title"
@@ -117,7 +119,7 @@ const AlbumEditForm: React.FC<AlbumEditFormProps> = ({
             type="primary"
             htmlType="submit"
             disabled={loading}
-            style={{ marginRight: "8px" }}
+            className={style.mr}
           >
             Submit
           </Button>

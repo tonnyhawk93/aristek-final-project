@@ -1,7 +1,8 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { MainPageLayout, NavButton, Album, Spinner } from "app/components";
+import { MainPageLayout, NavButton, Spinner } from "app/components";
+import { Album } from "./components";
 import { operations, Types } from "./duck";
 
 const AlbumPage = () => {

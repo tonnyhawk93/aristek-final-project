@@ -29,6 +29,7 @@
     "@types/antd": "^1.0.0",
     "@types/react-datepicker": "^4.4.1",
     "antd": "^4.20.2",
+    "classnames": "^2.3.1",
     "dayjs": "1.10.7",
     "framer-motion": "5",
     "graphql": "15.6.1",

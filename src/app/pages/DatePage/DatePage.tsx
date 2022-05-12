@@ -1,12 +1,13 @@
 import React from "react";
 import { Col, Row } from "antd";
-import { DateForm, MainPageLayout } from "app/components";
+import { MainPageLayout } from "app/components";
+import { DateForm } from "./components";
 
 const DatePage = () => {
   return (
     <MainPageLayout title="DatePage">
-      <Col style={{ height: "100%" }}>
-        <Row style={{ height: "100%" }} justify="start" align="top">
+      <Col className="h-100">
+        <Row className="h-100" justify="start" align="top">
           <DateForm />
         </Row>
       </Col>
