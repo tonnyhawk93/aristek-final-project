@@ -2,9 +2,10 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { Tabs, Table, Image } from "antd";
 import { uniqueId } from "lodash";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import ErrorMessage from "app/components/ErrorMessage";
 import Spinner from "app/components/Spinner";
+import { DEFAULT_PAGES_SIZE, DEFAULT_CURRENT_PAGE } from "app/constants";
 import { notEmpty } from "app/helpers";
 import { operations, Types } from "./duck";
 
@@ -12,6 +13,7 @@ const { TabPane } = Tabs;
 
 const Album = () => {
   const { id = "" } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { data, previousData, loading } = useQuery<
     Types.GetAlbumFullQuery,
@@ -20,6 +22,8 @@ const Album = () => {
     fetchPolicy: "cache-and-network",
     variables: {
       id,
+      page: Number(searchParams.get("page")) || DEFAULT_CURRENT_PAGE,
+      size: Number(searchParams.get("size")) || DEFAULT_PAGES_SIZE,
     },
   });
 
@@ -48,17 +52,36 @@ const Album = () => {
     },
   ];
 
-  if ((!data && !previousData) || loading) {
+  const handleChangePage = (page: number, size: number) => {
+    setSearchParams({
+      page: String(page),
+      size: String(size),
+    });
+  };
+
+  if (!previousData && loading) {
     return <Spinner />;
   }
 
-  if (data?.album?.photos?.data && data?.album?.photos?.data.length) {
-    const filteredData = data?.album?.photos?.data.filter(notEmpty);
+  if (
+    data?.album?.photos?.data?.length ||
+    previousData?.album?.photos?.data?.length
+  ) {
+    let filteredData;
+    let filteredPreviousData;
+
+    if (data?.album?.photos?.data?.length) {
+      filteredData = data?.album?.photos?.data.filter(notEmpty);
+    }
+
+    if (previousData?.album?.photos?.data?.length) {
+      filteredPreviousData = previousData?.album?.photos?.data.filter(notEmpty);
+    }
 
     return (
       <Tabs defaultActiveKey="1">
         <TabPane tab="Basic" key="1">
-          <p>ID: {data.album.id}</p>
+          <p>ID: {data?.album?.id}</p>
           <p>
             USER: {data?.album?.user?.name} ({data?.album?.user?.username})
           </p>
@@ -69,8 +92,17 @@ const Album = () => {
             rowKey={(record: { id?: string } | void) =>
               record?.id ?? uniqueId()
             }
-            dataSource={filteredData}
+            dataSource={filteredData || filteredPreviousData}
             loading={loading}
+            pagination={{
+              current: Number(searchParams.get("page")) || DEFAULT_CURRENT_PAGE,
+              pageSize: Number(searchParams.get("size")) || DEFAULT_PAGES_SIZE,
+              onChange: handleChangePage,
+              total:
+                data?.album?.photos?.meta?.totalCount ||
+                previousData?.album?.photos?.meta?.totalCount ||
+                0,
+            }}
           />
         </TabPane>
       </Tabs>

@@ -2,16 +2,27 @@ import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Layout, Col, Row } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { AlbumForm, Spinner, MainPageLayout, NavButton } from "app/components";
+import {
+  AlbumForm,
+  Spinner,
+  MainPageLayout,
+  NavButton,
+  ErrorMessage,
+} from "app/components";
 import { operations, Types } from "./duck";
 
 const { Content } = Layout;
+
+interface HandleSubmitProps {
+  title: string;
+  userId: string;
+}
 
 const AlbumsEditPage = () => {
   const navigate = useNavigate();
   const { id = "" } = useParams();
 
-  const { data, loading } = useQuery<
+  const { data, loading, error } = useQuery<
     Types.GetAlbumQuery,
     Types.GetAlbumQueryVariables
   >(operations.getAlbum, {
@@ -31,11 +42,6 @@ const AlbumsEditPage = () => {
     operations.editAlbum
   );
 
-  interface HandleSubmitProps {
-    title: string;
-    userId: string;
-  }
-
   const handleSubmit = ({ title, userId }: HandleSubmitProps) => {
     editAlbum({
       variables: {
@@ -50,12 +56,16 @@ const AlbumsEditPage = () => {
 
   const handleCancel = () => navigate("/albums");
 
+  if (error) {
+    return <ErrorMessage />;
+  }
+
   return (
     <MainPageLayout
       title="Edit album"
       headerButton={<NavButton pathTo="/albums" />}
     >
-      {!data || loading || !data?.album ? (
+      {loading || !data?.album ? (
         <Spinner />
       ) : (
         <Layout>

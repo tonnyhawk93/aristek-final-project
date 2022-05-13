@@ -3,6 +3,8 @@ import * as Types from "../../../../../../../schema.generated";
 
 export type GetAlbumFullQueryVariables = Types.Exact<{
   id: Types.Scalars["ID"];
+  page: Types.Scalars["Int"];
+  size: Types.Scalars["Int"];
 }>;
 
 export type GetAlbumFullQuery = {
@@ -17,6 +19,7 @@ export type GetAlbumFullQuery = {
             >
           >
         >;
+        meta?: Types.Maybe<Pick<Types.PageMetadata, "totalCount">>;
       }>;
     }
   >;

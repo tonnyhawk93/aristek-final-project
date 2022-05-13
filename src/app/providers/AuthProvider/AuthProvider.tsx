@@ -8,7 +8,7 @@ interface AuthProviderProps {
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setLogin] = useState(
-    Boolean(localStorage.getItem(TOKEN_FIELD_NAME))
+    !!localStorage.getItem(TOKEN_FIELD_NAME)
   );
   const { Provider } = authContext;
 
