@@ -1,9 +1,11 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Tabs, Table, Image } from "antd";
+import { uniqueId } from "lodash";
 import { useParams } from "react-router-dom";
-import ErrorMessage from "../../../../components/ErrorMessage";
-import Spinner from "../../../../components/Spinner";
+import ErrorMessage from "app/components/ErrorMessage";
+import Spinner from "app/components/Spinner";
+import { notEmpty } from "app/helpers";
 import { operations, Types } from "./duck";
 
 const { TabPane } = Tabs;
@@ -11,10 +13,11 @@ const { TabPane } = Tabs;
 const Album = () => {
   const { id = "" } = useParams();
 
-  const { data, loading } = useQuery<
+  const { data, previousData, loading } = useQuery<
     Types.GetAlbumFullQuery,
     Types.GetAlbumFullQueryVariables
   >(operations.getAlbumFull, {
+    fetchPolicy: "cache-and-network",
     variables: {
       id,
     },
@@ -45,15 +48,12 @@ const Album = () => {
     },
   ];
 
-  if (!data || loading) {
+  if ((!data && !previousData) || loading) {
     return <Spinner />;
   }
 
   if (data?.album?.photos?.data && data?.album?.photos?.data.length) {
-    const dataWithKeys = data.album.photos.data.map((el) => ({
-      ...el,
-      key: el?.id,
-    }));
+    const filteredData = data?.album?.photos?.data.filter(notEmpty);
 
     return (
       <Tabs defaultActiveKey="1">
@@ -64,7 +64,14 @@ const Album = () => {
           </p>
         </TabPane>
         <TabPane tab="Photos" key="2">
-          <Table columns={columns} dataSource={dataWithKeys} />
+          <Table
+            columns={columns}
+            rowKey={(record: { id?: string } | void) =>
+              record?.id ?? uniqueId()
+            }
+            dataSource={filteredData}
+            loading={loading}
+          />
         </TabPane>
       </Tabs>
     );

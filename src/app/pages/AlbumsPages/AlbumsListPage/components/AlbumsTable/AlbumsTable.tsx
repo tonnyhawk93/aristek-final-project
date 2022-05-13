@@ -1,11 +1,7 @@
 import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Table, Space } from "antd";
-import {
-  useNavigate,
-  useSearchParams,
-  createSearchParams,
-} from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ErrorMessage, Spinner } from "app/components";
 import { DEFAULT_PAGES_SIZE, DEFAULT_CURRENT_PAGE } from "app/constants";
 import { operations, Types } from "./duck";
@@ -16,6 +12,7 @@ const AlbumsTable: React.FC = () => {
     Types.GetAlbumsQuery,
     Types.GetAlbumsQueryVariables
   >(operations.getAlbums, {
+    fetchPolicy: "cache-and-network",
     variables: {
       page: Number(searchParams.get("page")) || DEFAULT_CURRENT_PAGE,
       size: Number(searchParams.get("size")) || DEFAULT_PAGES_SIZE,
@@ -32,9 +29,10 @@ const AlbumsTable: React.FC = () => {
   const handleDeleteAlbum = (id: string) => deleteAlbum({ variables: { id } });
 
   const handleChangePage = (page: number, size: number) => {
-    const newParams = { page: String(page), size: String(size) };
-    const search = `?${createSearchParams(newParams)}`;
-    setSearchParams(search);
+    setSearchParams({
+      page: String(page),
+      size: String(size),
+    });
   };
 
   const columns = [

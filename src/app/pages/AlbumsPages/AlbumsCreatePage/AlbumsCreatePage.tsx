@@ -2,12 +2,12 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import { Layout, Col, Row } from "antd";
 import { useNavigate } from "react-router-dom";
-import { AlbumEditForm, MainPageLayout, NavButton } from "app/components";
+import { AlbumForm, MainPageLayout, NavButton } from "app/components";
 import { operations, Types } from "./duck";
 
 const { Content } = Layout;
 
-const DeleteAlbumPage = () => {
+const AlbumsCreatePage = () => {
   const navigate = useNavigate();
   const [createAlbum, { loading, called, error }] = useMutation<
     Types.CreateAlbumMutation,
@@ -34,12 +34,15 @@ const DeleteAlbumPage = () => {
   const handleCancel = () => navigate("/albums");
 
   return (
-    <MainPageLayout title="Create album" headerButton={<NavButton />}>
+    <MainPageLayout
+      title="Create album"
+      headerButton={<NavButton pathTo="/albums" />}
+    >
       <Layout>
         <Content className="h-100">
           <Col className="h-100">
             <Row className="h-100" justify="start" align="middle">
-              <AlbumEditForm
+              <AlbumForm
                 handleCancel={handleCancel}
                 handleSubmit={handleSubmit}
                 loading={loading}
@@ -54,4 +57,4 @@ const DeleteAlbumPage = () => {
   );
 };
 
-export default DeleteAlbumPage;
+export default AlbumsCreatePage;

@@ -1,22 +1,22 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
-import "./style.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "antd/dist/antd.css";
+import "./style.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PrivatePath } from "./components";
 import client from "./configs/appolo";
 import {
-  AlbumPage,
+  AlbumsPages,
   LoginPage,
-  AlbumsPage,
   DashboardPage,
-  EditAlbumPage,
-  CreateAlbumPage,
   NotFoundPage,
   DatePage,
 } from "./pages";
 import AuthProvider from "./providers/AuthProvider";
+
+const { AlbumsEditPage, AlbumPage, AlbumsCreatePage, AlbumsListPage } =
+  AlbumsPages;
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
               path="/albums"
               element={
                 <PrivatePath>
-                  <AlbumsPage />
+                  <AlbumsListPage />
                 </PrivatePath>
               }
             />
@@ -44,7 +44,7 @@ function App() {
               path="/albums/create"
               element={
                 <PrivatePath>
-                  <CreateAlbumPage />
+                  <AlbumsCreatePage />
                 </PrivatePath>
               }
             />
@@ -60,7 +60,7 @@ function App() {
               path="/albums/:id/edit"
               element={
                 <PrivatePath>
-                  <EditAlbumPage />
+                  <AlbumsEditPage />
                 </PrivatePath>
               }
             />

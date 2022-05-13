@@ -2,17 +2,12 @@ import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Layout, Col, Row } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  AlbumEditForm,
-  Spinner,
-  MainPageLayout,
-  NavButton,
-} from "app/components";
+import { AlbumForm, Spinner, MainPageLayout, NavButton } from "app/components";
 import { operations, Types } from "./duck";
 
 const { Content } = Layout;
 
-const EditAlbumPage = () => {
+const AlbumsEditPage = () => {
   const navigate = useNavigate();
   const { id = "" } = useParams();
 
@@ -56,7 +51,10 @@ const EditAlbumPage = () => {
   const handleCancel = () => navigate("/albums");
 
   return (
-    <MainPageLayout title="Edit album" headerButton={<NavButton />}>
+    <MainPageLayout
+      title="Edit album"
+      headerButton={<NavButton pathTo="/albums" />}
+    >
       {!data || loading || !data?.album ? (
         <Spinner />
       ) : (
@@ -64,7 +62,7 @@ const EditAlbumPage = () => {
           <Content className="h-100">
             <Col className="h-100">
               <Row className="h-100" justify="start" align="middle">
-                <AlbumEditForm
+                <AlbumForm
                   initialValues={{
                     title: data?.album?.title || "",
                     userId: data?.album?.user?.id || "",
@@ -84,4 +82,4 @@ const EditAlbumPage = () => {
   );
 };
 
-export default EditAlbumPage;
+export default AlbumsEditPage;

@@ -12,7 +12,7 @@ const NotFoundPage = () => {
           <Row className="h-100" justify="center" align="middle">
             <Col>
               <h1>Страница не найдена</h1>
-              <NavButton pathTo="/">Вернуться на главную</NavButton>
+              <NavButton>Вернуться на главную</NavButton>
             </Col>
           </Row>
         </Col>

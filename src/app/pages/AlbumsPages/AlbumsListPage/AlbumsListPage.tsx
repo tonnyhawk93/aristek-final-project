@@ -2,7 +2,7 @@ import React from "react";
 import { MainPageLayout, NavButton } from "app/components";
 import { AlbumsTable } from "./components";
 
-const AlbumsPage = () => {
+const AlbumsListPage = () => {
   return (
     <MainPageLayout
       title="Albums"
@@ -12,4 +12,4 @@ const AlbumsPage = () => {
     </MainPageLayout>
   );
 };
-export default AlbumsPage;
+export default AlbumsListPage;

@@ -20,7 +20,7 @@ const AlbumPage = () => {
   return (
     <MainPageLayout
       title={`Album: ${data?.album?.title || ""}`}
-      headerButton={<NavButton />}
+      headerButton={<NavButton pathTo="/albums" />}
     >
       {loading ? <Spinner /> : <Album />}
     </MainPageLayout>

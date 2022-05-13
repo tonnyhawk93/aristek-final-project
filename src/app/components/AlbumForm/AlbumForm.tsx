@@ -15,7 +15,7 @@ interface HandleSubmitArgs {
   userId: string;
 }
 
-interface AlbumEditFormProps {
+interface AlbumFormProps {
   initialValues?: {
     title: string;
     userId: string;
@@ -27,7 +27,7 @@ interface AlbumEditFormProps {
   error?: ApolloError;
 }
 
-const AlbumEditForm: React.FC<AlbumEditFormProps> = ({
+const AlbumForm: React.FC<AlbumFormProps> = ({
   initialValues,
   handleSubmit,
   handleCancel,
@@ -134,4 +134,4 @@ const AlbumEditForm: React.FC<AlbumEditFormProps> = ({
   return <ErrorMessage />;
 };
 
-export default AlbumEditForm;
+export default AlbumForm;

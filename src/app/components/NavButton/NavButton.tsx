@@ -8,7 +8,7 @@ interface NavButtonProps {
 
 const NavButton: React.FC<NavButtonProps> = ({
   children = "Back",
-  pathTo = "/albums",
+  pathTo = "/",
 }) => {
   const navigate = useNavigate();
   const handleClick = () => navigate(pathTo);
